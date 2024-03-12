@@ -90,7 +90,7 @@ class TestParentNode(unittest.TestCase):
         expected = '<p><b>this is bold</b><p><a href="https://boot.dev">this is a link</a>this is text</p>this is just plain text</p>'
         self.assertEqual(actual,expected)
 
-    def test_eq_no_parent_in_parent(self):
+    def test_eq_parent_in_parent(self):
         parentnode = ParentNode([
             LeafNode("this is bold","b"),
             ParentNode([
@@ -101,6 +101,20 @@ class TestParentNode(unittest.TestCase):
             ],"p")
         actual = parentnode.to_HTML()
         expected = '<p><b>this is bold</b><p><a href="https://boot.dev">this is a link</a>this is text</p>this is just plain text</p>'
+        self.assertEqual(actual,expected)
+
+    def test_eq_no_parent_nested(self):
+        parentnode = ParentNode([
+            ParentNode([
+            ParentNode([
+                LeafNode("this is text", None)
+            ],"a")
+                
+            ],"p"),
+            LeafNode("this is just plain text", None)
+            ],"p")
+        actual = parentnode.to_HTML()
+        expected = '<p><p><a>this is text</a></p>this is just plain text</p>'
         self.assertEqual(actual,expected)
 
 

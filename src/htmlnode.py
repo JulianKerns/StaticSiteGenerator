@@ -25,8 +25,11 @@ class LeafNode(HTMLNode):
     def __init__(self, value, tag=None, props=None):
         super().__init__(tag, value, None, props)
 
+    def __repr__(self):
+        return f"LeafNode({self.value}, {self.tag}, {self.props})"
+
     def to_HTML(self):
-        if not self.value: 
+        if not self.value and self.value != "": 
             raise ValueError("LeafNode needs a value to be valid")
         elif not self.tag:
             return f"{self.value}"
