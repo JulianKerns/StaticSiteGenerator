@@ -8,12 +8,12 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a text node", "bold", "https://www.boot.dev")
         self.assertEqual(node1, node2)
 
-    def test_eq2(self):
+    def test_eq2_fail(self):
         node1 = TextNode("This is a text node", "bold", "https://www.boot.dev")
         node2 = TextNode("This is a text node", "italic", "https://www.boot.dev")
         self.assertEqual(node1, node2)
     
-    def test_eq3(self):
+    def test_eq3_fail(self):
         node1 = TextNode("This is a text node", "bold")
         node2 = TextNode("This is a text node", "italic")
         self.assertEqual(node1, node2)
