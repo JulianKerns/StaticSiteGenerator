@@ -27,10 +27,31 @@ class LeafNode(HTMLNode):
 
     def to_HTML(self):
         if not self.value: 
-            raise ValueError("LeafNode needs a value tp be valid")
+            raise ValueError("LeafNode needs a value to be valid")
         elif not self.tag:
             return f"{self.value}"
         else:
             return f'<{self.tag}{self.props_to_HTML()}>{self.value}</{self.tag}>'
         
-            
+class ParentNode(HTMLNode):
+
+    def __init__(self, children, tag=None, props=None):
+        super().__init__(tag, None, children, props)
+
+    def to_HTML(self):
+        if not self.tag:
+            raise ValueError("ParentNode needs a tag to be valid")
+        if not self.children:
+            raise ValueError("ParentNode needs children to be valid")
+        
+        html_string =""
+        for node in self.children:
+            html_string += node.to_HTML()
+        if self.props:
+            return f'<{self.tag}{self.props_to_HTML()}>{html_string}</{self.tag}>'
+
+        return f'<{self.tag}>{html_string}</{self.tag}>'
+        
+
+         
+        
