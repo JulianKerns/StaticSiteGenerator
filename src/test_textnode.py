@@ -1,7 +1,8 @@
 import unittest
 
-from textnode import TextNode, text_node_to_html_node, split_nodes_delimiter
+from textnode import TextNode, text_node_to_html_node 
 from htmlnode import HTMLNode, LeafNode
+from inline_markdown import extract_markdown_images, extract_markdown_links, split_nodes_delimiter 
 
 
 class TestTextNode(unittest.TestCase):
@@ -116,6 +117,18 @@ class TestTextNode(unittest.TestCase):
                     TextNode("bold text","bold"),
                     LeafNode("this is bold","b")
                     ]
+        self.assertEqual(actual,expected)
+
+    def test_eq_markdown_images(self):
+        text = "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and ![another](https://i.imgur.com/dfsdkjfd.png)" 
+        actual = extract_markdown_images(text)
+        expected = [("image", "https://i.imgur.com/zjjcJKZ.png"), ("another", "https://i.imgur.com/dfsdkjfd.png")]
+        self.assertEqual(actual,expected)
+
+    def test_eq_markdown_links(self):
+        text = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)" 
+        actual = extract_markdown_links(text)
+        expected = [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
         self.assertEqual(actual,expected)
 
     
