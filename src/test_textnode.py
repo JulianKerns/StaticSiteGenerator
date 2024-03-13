@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode, text_node_to_html_node
+from textnode import TextNode, text_node_to_html_node, split_nodes_delimiter
 from htmlnode import HTMLNode, LeafNode
 
 
@@ -54,6 +54,71 @@ class TestTextNode(unittest.TestCase):
         actual = (text_node_to_html_node(textnode)).to_HTML()
         expected = '<b>this text is bold</b>'
         self.assertEqual(actual,expected)
+
+    def test_eq_old_node_to_new_node_not_text(self):
+        textnode = LeafNode("this is bold","b")
+        actual = (split_nodes_delimiter([textnode],"*","text"))
+        expected =[LeafNode("this is bold","b")]
+        self.assertEqual(actual,expected)
+
+    def test_eq_old_node_to_new_node_middle(self):
+        textnode = TextNode("this text is **bold** text","text")
+        actual = (split_nodes_delimiter([textnode],"**","bold"))
+        expected =[TextNode("this text is ","text"),
+                    TextNode("bold","bold"),
+                    TextNode(" text","text")
+                    ]
+        self.assertEqual(actual,expected)
+
+    def test_eq_old_node_to_new_node_(self):
+        textnode = TextNode("this text is **bold** text","text")
+        leafnode = LeafNode("this is bold","b")
+        actual = (split_nodes_delimiter([textnode,leafnode],"**","bold"))
+        expected =[TextNode("this text is ","text"),
+                    TextNode("bold","bold"),
+                    TextNode(" text","text"),
+                    LeafNode("this is bold","b")
+                    ]
+        self.assertEqual(actual,expected)
+
+
+    def test_eq_old_node_to_new_node_(self):
+        textnode = TextNode("*this* text is *italic* text","text")
+        leafnode = LeafNode("this is italic","i")
+        actual = (split_nodes_delimiter([textnode,leafnode],"*","italic"))
+        expected =[TextNode("this","italic"),
+                    TextNode(" text is ","text"),
+                    TextNode("italic","italic"),
+                    TextNode(" text","text"),
+                    LeafNode("this is italic","i")
+                    ]
+        self.assertEqual(actual,expected)
+
+
+    def test_eq_old_node_to_new_node_(self):
+        textnode = TextNode("this `text` is a `code block`","text")
+        leafnode = LeafNode("this is italic","i")
+        actual = (split_nodes_delimiter([textnode,leafnode],"`","code"))
+        expected =[TextNode("this ","text"),
+                    TextNode("text","code"),
+                    TextNode(" is a ","text"),
+                    TextNode("code block","code"),
+                    LeafNode("this is italic","i")
+                    ]
+        self.assertEqual(actual,expected)
+        
+    def test_eq_old_node_to_new_node(self):
+        textnode = TextNode("**this** text is **bold text**","text")
+        leafnode = LeafNode("this is bold","b")
+        actual = (split_nodes_delimiter([textnode,leafnode],"**","bold"))
+        expected =[TextNode("this","bold"),
+                    TextNode(" text is ","text"),
+                    TextNode("bold text","bold"),
+                    LeafNode("this is bold","b")
+                    ]
+        self.assertEqual(actual,expected)
+
+    
 
 
 if __name__ == "__main__":
