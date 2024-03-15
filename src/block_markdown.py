@@ -61,4 +61,3 @@ def block_to_blocktype(block):
 
 
     
-block_to_blocktype('1. This is **bolded** paragraph\n2. This is another paragraph with *italic* text and `code` here\n3. This is the same paragraph on a new line')
