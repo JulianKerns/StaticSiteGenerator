@@ -27,7 +27,7 @@ def block_to_blocktype(block):
     ):
         return block_type_heading
 
-    if len(block_split) > 1 and block_split[0].startswith("```") and block_split[-1].startswith("```"):
+    if len(block_split) > 1 and block_split[0].startswith("```") and block_split[-1].endswith("```"):
         return block_type_code
 
     if block.startswith(">"):
@@ -58,6 +58,7 @@ def block_to_blocktype(block):
         return block_type_ordered_list  
     return block_type_paragraph
 
-      
+
+
     
 block_to_blocktype('1. This is **bolded** paragraph\n2. This is another paragraph with *italic* text and `code` here\n3. This is the same paragraph on a new line')

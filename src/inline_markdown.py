@@ -169,4 +169,3 @@ def text_to_textnodes(text):
     return split_by_link
         
       
-text_to_textnodes("This is **text** with an *italic* word and a `code block` and an ![image](https://i.imgur.com/zjjcJKZ.png) and a [link](https://boot.dev)")
