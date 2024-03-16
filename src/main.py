@@ -1,11 +1,15 @@
 
 import os
 import shutil
-from generate_page import generate_page_function, extract_title 
+from generate_page import generate_page_function, extract_title, generate_page_recursive 
 
 def main():
     public_path = "/home/julian_k/workspace/github.com/JulianKerns/StaticSiteGenerator/public"
     static_path = "/home/julian_k/workspace/github.com/JulianKerns/StaticSiteGenerator/static"
+
+    from_path ="/home/julian_k/workspace/github.com/JulianKerns/StaticSiteGenerator/content"
+    dest_path ="/home/julian_k/workspace/github.com/JulianKerns/StaticSiteGenerator/public"
+    template_path = "/home/julian_k/workspace/github.com/JulianKerns/StaticSiteGenerator/template.html"   
 
     def deleting_public_dir_contents():
         if os.path.exists(public_path):
@@ -40,5 +44,5 @@ def main():
 
     deleting_public_dir_contents()
     copying_static_dir(public_path,static_path)
-    generate_page_function()
+    generate_page_recursive(from_path, template_path, dest_path)
 main()
